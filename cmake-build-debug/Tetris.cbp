@@ -82,7 +82,16 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/max/projects/OOP/Tetris/game.h">
+			<Option target="Tetris"/>
+		</Unit>
+		<Unit filename="/home/max/projects/OOP/Tetris/gamefield.h">
+			<Option target="Tetris"/>
+		</Unit>
 		<Unit filename="/home/max/projects/OOP/Tetris/main.cpp">
+			<Option target="Tetris"/>
+		</Unit>
+		<Unit filename="/home/max/projects/OOP/Tetris/tetramino.h">
 			<Option target="Tetris"/>
 		</Unit>
 		<Unit filename="/home/max/projects/OOP/Tetris/CMakeLists.txt">

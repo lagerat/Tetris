@@ -1,5 +1,9 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include "game.h"
+#include "gamefield.h"
+#include "tetramino.h"
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 800), "Points");
