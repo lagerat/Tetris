@@ -6,9 +6,33 @@
 
 #IncludeRegexTransform: 
 
+/home/max/projects/OOP/Tetris/game.hpp
+gamefield.hpp
+/home/max/projects/OOP/Tetris/gamefield.hpp
+tetramino.hpp
+/home/max/projects/OOP/Tetris/tetramino.hpp
+
+/home/max/projects/OOP/Tetris/gamefield.hpp
+tetramino.hpp
+/home/max/projects/OOP/Tetris/tetramino.hpp
+
 /home/max/projects/OOP/Tetris/main.cpp
 SFML/Audio.hpp
 -
 SFML/Graphics.hpp
+-
+vector
+-
+game.hpp
+/home/max/projects/OOP/Tetris/game.hpp
+iostream
+-
+gamefield.hpp
+/home/max/projects/OOP/Tetris/gamefield.hpp
+tetramino.hpp
+/home/max/projects/OOP/Tetris/tetramino.hpp
+
+/home/max/projects/OOP/Tetris/tetramino.hpp
+iostream
 -
 
