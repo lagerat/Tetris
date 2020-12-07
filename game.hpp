@@ -27,8 +27,8 @@ public:
         while (window.isOpen())
         {
             if (!tetraminoIsCreated){
-//                switch (randTypeOfTetramino()) {
-                switch (2) {
+                switch (randTypeOfTetramino()) {
+//                switch (1) {
                     case 1:
                         current = new ITetramino;
                         break;
@@ -111,6 +111,7 @@ public:
                     insertToVector(current);
                     delete current;
                     checkAndDelLines();
+                    showField();
                     tetraminoIsCreated = false;
                 }
                 instantFall.restart();
@@ -146,6 +147,15 @@ public:
         for (int i = 0; i < 4; ++i) {
             pointsOnField.push_back(cur->getTetr(i));
         }
+    }
+    void showField(){
+        for (int i = 0; i <H ; ++i) {
+            for (int j = 0; j <W ; ++j) {
+                std::cout << field[i][j] << " ";
+            }
+            std::cout<< std::endl;
+        }
+        std::cout << "----------------------------------" << std::endl;
     }
     static inline int randTypeOfTetramino(){
          return rand() % 6 + 1;

@@ -40,6 +40,21 @@ public:
                         }
                     }
                 }
+                for (int j = i - 1; j > 0 ; --j) {
+                    for (int k = 0; k < W  ; ++k) {
+                        for (it = pointsOnField.begin();it != pointsOnField.end(); ) {
+                            if ((*it)->getX() == k && (*it)->getY() == j){
+                                (*it)->dropDown();
+                                int tmp;
+                                tmp = field[j][k];
+                                field[j][k] = 0;
+                                field[j+1][k] = tmp;
+                            } else {
+                                ++it;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
