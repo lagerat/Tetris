@@ -40,7 +40,10 @@ public:
             sprite.setTextureRect(sf::IntRect(18*color,0,18,18));
         }
     }
-
+    void dropDown(){
+        y += 1;
+        sprite.setPosition(x,y);
+    }
     sf::Sprite getSprite(){
         return sprite;
     }
@@ -65,7 +68,7 @@ sf::Texture point::texture;
 
 class tetramino : public point{
 protected:
-    int position[4];
+    int position[4] = {1,3,5,7};
     point* tetr[4];
 public:
     tetramino(){
@@ -74,12 +77,6 @@ public:
             tetr[i]->setSprite(1);
         }
     }
-//    tetramino(int width = 0, int height = 0){
-//        for (int i = 0; i < 4; ++i) {
-//            tetr[i] = new point(width/2,height/2);
-//        }
-//    }
-
     void moveLR(short turn, int oldCoord[][2]){
 
         for (int i = 0; i < 4; ++i) {
@@ -97,7 +94,7 @@ public:
         }
     }
 
-    void rotate(int oldCoord[][2]){
+    virtual void rotate(int oldCoord[][2]){
         point* center = tetr[1];
         for (int i = 0; i < 4 ; ++i) {
             oldCoord[i][0] = tetr[i]->getX();
@@ -115,6 +112,7 @@ public:
         return tetr[number];
     }
 
+
     void drawSprite(sf::RenderWindow& window) override {
         for (int i = 0; i < 4; ++i) {
             window.draw(tetr[i]->getSprite());
@@ -125,7 +123,6 @@ public:
             tetr[i]->setCoord(coords[i][0],coords[i][1]);
         }
     }
-    friend bool checkCollisonLRD(tetramino & figure);
     virtual void setColor(){
     }
     virtual void setPos(){}
@@ -156,6 +153,13 @@ public:
         setPos();
         for (int i = 0; i < 4; ++i) {
             tetr[i]->setCoord(position[i] % 2 ,position[i] / 2);
+        }
+    }
+
+    void rotate(int oldCoord[][2]) override {
+        for (int i = 0; i < 4 ; ++i) {
+            oldCoord[i][0] = tetr[i]->getX();
+            oldCoord[i][1] = tetr[i]->getY();
         }
     }
     void setColor() override {

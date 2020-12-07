@@ -14,9 +14,35 @@ protected:
     sf::Clock instantFall;
     sf::Clock clockMoveY;
     std::vector<point*> pointsOnField;
-    tetramino *curAndNextTetra[3];
+    std::vector<point*>::iterator it = pointsOnField.begin();
     int field[H][W] = {0};
 public:
+    void checkAndDelLines(){
+        for (int i = 0; i < H ; ++i) {
+            bool lineIsFull = true;
+            for (int j = 0; j < W ; ++j) {
+                if (field[i][j] == 0){
+                    lineIsFull = false;
+                    break;
+                }
+            }
+            if (lineIsFull){
+                for (int j = 0; j < W; ++j) {
+                    field[i][j] = 0;
+                }
+                for (int j = 0; j < W ; ++j) {
+                    for (it = pointsOnField.begin();it != pointsOnField.end(); ) {
+                        if ((*it)->getX() == j && (*it)->getY() == i){
+                            delete *it;
+                            it = pointsOnField.erase(it);
+                        } else {
+                            ++it;
+                        }
+                    }
+                }
+            }
+        }
+    }
     virtual bool checkCollisionInUp() = 0;
     virtual bool checkCollisonLRD(tetramino* figure) = 0;
 };
