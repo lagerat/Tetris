@@ -3,7 +3,6 @@
 
 #include <iostream>
 
-
 class point{
 private:
     int x;
@@ -35,8 +34,13 @@ public:
             throw "error with color of tetramino";
         }
         sprite.setTexture(texture);
-        sprite.setTextureRect(sf::IntRect(0,0,18*color,18*color));
+        if (color == 1){
+            sprite.setTextureRect(sf::IntRect(0,0,18,18));
+        } else{
+            sprite.setTextureRect(sf::IntRect(18*color,0,18,18));
+        }
     }
+
     sf::Sprite getSprite(){
         return sprite;
     }
@@ -75,23 +79,53 @@ public:
 //            tetr[i] = new point(width/2,height/2);
 //        }
 //    }
-    void moveLR(bool turn){
+
+    void moveLR(short turn, int oldCoord[][2]){
+
         for (int i = 0; i < 4; ++i) {
+            oldCoord[i][0] = tetr[i]->getX();
+            oldCoord[i][1] = tetr[i]->getY();
             tetr[i]->setCoord(tetr[i]->getX()+(int)turn, tetr[i]->getY());
         }
+
     }
-    void fallTetr(){
+    void fallTetr(int oldCoord[][2]){
         for (int i = 0; i < 4; ++i) {
+            oldCoord[i][0] = tetr[i]->getX();
+            oldCoord[i][1] = tetr[i]->getY();
             tetr[i]->setCoord(tetr[i]->getX(),tetr[i]->getY()+1);
         }
     }
+
+    void rotate(int oldCoord[][2]){
+        point* center = tetr[1];
+        for (int i = 0; i < 4 ; ++i) {
+            oldCoord[i][0] = tetr[i]->getX();
+            oldCoord[i][1] = tetr[i]->getY();
+            int x = tetr[i]->getY() - center->getY();
+            int y = tetr[i]->getX() - center->getX();
+            tetr[i]->setCoord(center->getX() - x,center->getY()+y);
+        }
+    }
+
+    point* getTetr(int number){
+        if (number > 3 || number < 0){
+            throw "GetTetr error, invalid data";
+        }
+        return tetr[number];
+    }
+
     void drawSprite(sf::RenderWindow& window) override {
         for (int i = 0; i < 4; ++i) {
             window.draw(tetr[i]->getSprite());
-            sf::Vector2f v(tetr[i]->getSprite().getPosition());
-            std::cout  << "";
         }
     }
+    void backOldCoord(int coords[][2]){
+        for (int i = 0; i < 4; ++i) {
+            tetr[i]->setCoord(coords[i][0],coords[i][1]);
+        }
+    }
+    friend bool checkCollisonLRD(tetramino & figure);
     virtual void setColor(){
     }
     virtual void setPos(){}
@@ -120,6 +154,9 @@ public:
     oTetramino() :tetramino(){
         setColor();
         setPos();
+        for (int i = 0; i < 4; ++i) {
+            tetr[i]->setCoord(position[i] % 2 ,position[i] / 2);
+        }
     }
     void setColor() override {
         for (int i = 0; i < 4; ++i) {
@@ -138,6 +175,9 @@ public:
     sTetramino() :tetramino(){
         setColor();
         setPos();
+        for (int i = 0; i < 4; ++i) {
+            tetr[i]->setCoord(position[i] % 2 ,position[i] / 2);
+        }
     }
     void setColor() override {
         for (int i = 0; i < 4; ++i) {
@@ -156,6 +196,9 @@ public:
     ZTetramino() :tetramino(){
         setColor();
         setPos();
+        for (int i = 0; i < 4; ++i) {
+            tetr[i]->setCoord(position[i] % 2 ,position[i] / 2);
+        }
     }
     void setColor() override {
         for (int i = 0; i < 4; ++i) {
@@ -174,6 +217,9 @@ public:
     LTetramino() :tetramino(){
         setColor();
         setPos();
+        for (int i = 0; i < 4; ++i) {
+            tetr[i]->setCoord(position[i] % 2 ,position[i] / 2);
+        }
     }
     void setColor() override {
         for (int i = 0; i < 4; ++i) {
@@ -192,6 +238,9 @@ public:
     JTetramino() :tetramino(){
         setColor();
         setPos();
+        for (int i = 0; i < 4; ++i) {
+            tetr[i]->setCoord(position[i] % 2 ,position[i] / 2);
+        }
     }
     void setColor() override {
         for (int i = 0; i < 4; ++i) {
@@ -210,6 +259,9 @@ public:
     tTetramino() :tetramino(){
         setColor();
         setPos();
+        for (int i = 0; i < 4; ++i) {
+            tetr[i]->setCoord(position[i] % 2 ,position[i] / 2);
+        }
     }
     void setColor() override {
         for (int i = 0; i < 4; ++i) {

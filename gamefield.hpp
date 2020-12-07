@@ -14,10 +14,11 @@ protected:
     sf::Clock instantFall;
     sf::Clock clockMoveY;
     std::vector<point*> pointsOnField;
-    std::vector<tetramino*> curAndNextTetra;
-    int field[H][W];
+    tetramino *curAndNextTetra[3];
+    int field[H][W] = {0};
 public:
-    virtual void checkCollisionInUp() = 0;
+    virtual bool checkCollisionInUp() = 0;
+    virtual bool checkCollisonLRD(tetramino* figure) = 0;
 };
 
 
