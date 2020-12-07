@@ -16,6 +16,10 @@ protected:
     std::vector<point*> pointsOnField;
     std::vector<point*>::iterator it = pointsOnField.begin();
     int field[H][W] = {0};
+    sf::Texture background;
+    sf::Texture windowTetris;
+    sf::Sprite backgroundSprite;
+    sf::Sprite windowTetrisSprite;
 public:
     void checkAndDelLines(){
         for (int i = 0; i < H ; ++i) {
@@ -45,6 +49,7 @@ public:
                         for (it = pointsOnField.begin();it != pointsOnField.end(); ) {
                             if ((*it)->getX() == k && (*it)->getY() == j){
                                 (*it)->dropDown();
+                                (*it)->getSprite().move(28,31);
                                 int tmp;
                                 tmp = field[j][k];
                                 field[j][k] = 0;
@@ -58,7 +63,12 @@ public:
             }
         }
     }
-    virtual bool checkCollisionInUp() = 0;
+    void loadTexture(){
+        background.loadFromFile("../img/background.png");
+        windowTetris.loadFromFile("../img/frame.png");
+        backgroundSprite.setTexture(background);
+        windowTetrisSprite.setTexture(windowTetris);
+    }
     virtual bool checkCollisonLRD(tetramino* figure) = 0;
 };
 

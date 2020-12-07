@@ -9,6 +9,7 @@ private:
     int y;
     sf::Sprite sprite;
 public:
+    bool isMoved = false;
     static sf::Texture texture;
     point(){
         texture.loadFromFile("../img/tiles.png");
@@ -44,7 +45,7 @@ public:
         y += 1;
         sprite.setPosition((float)x*18,(float)y*18);
     }
-    sf::Sprite getSprite(){
+    sf::Sprite& getSprite(){
         return sprite;
     }
      virtual void drawSprite(sf::RenderWindow& window){

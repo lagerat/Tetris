@@ -10,8 +10,7 @@ using namespace sf;
 
 class game : public gamefield{
     const int delay = 500;
-    bool tetraminoIsCreated = true;
-    bool tetraminoIsStoped = false;
+    bool tetraminoIsCreated = false;
     tetramino* current;
 public:
     int startGame(){
@@ -23,12 +22,11 @@ public:
         pointsOnField.reserve(W*H);
         RenderWindow window(sf::VideoMode(320, 480), "Tetris");
         window.setFramerateLimit(32);
-        current = new oTetramino;
+        loadTexture();
         while (window.isOpen())
         {
             if (!tetraminoIsCreated){
                 switch (randTypeOfTetramino()) {
-//                switch (1) {
                     case 1:
                         current = new ITetramino;
                         break;
@@ -51,6 +49,13 @@ public:
                         current = new tTetramino;
                         break;
                 }
+                if (!checkCollisonLRD(current)){
+                    window.close();
+                }
+                for (int i = 0; i < 4; ++i) {
+                    current->getTetr(i)->getSprite().move(28,31);
+                }
+
                 tetraminoIsCreated = true;
             }
             Event event;
@@ -68,6 +73,9 @@ public:
                             current->backOldCoord(oldCoord);
                         }
                         clockRotate.restart();
+                        for (int i = 0; i < 4; ++i) {
+                            current->getTetr(i)->getSprite().move(28,31);
+                        }
                     }
                 } else if (event.key.code == Keyboard::Right){
                     if (clockMoveX.getElapsedTime().asMilliseconds() > delay/10){
@@ -77,6 +85,9 @@ public:
                             current->backOldCoord(oldCoord);
                         }
                         clockMoveX.restart();
+                        for (int i = 0; i < 4; ++i) {
+                            current->getTetr(i)->getSprite().move(28,31);
+                        }
                     }
                 } else if (event.key.code == Keyboard::Left){
                     int oldCoord[4][2];
@@ -86,6 +97,9 @@ public:
                             current->backOldCoord(oldCoord);
                         }
                         clockMoveX.restart();
+                        for (int i = 0; i < 4; ++i) {
+                            current->getTetr(i)->getSprite().move(28,31);
+                        }
                     }
                 } else if (event.key.code == Keyboard::Down){
                     int oldCoord[4][2];
@@ -95,6 +109,9 @@ public:
                             current->backOldCoord(oldCoord);
                         }
                         clockMoveY.restart();
+                        for (int i = 0; i < 4; ++i) {
+                            current->getTetr(i)->getSprite().move(28,31);
+                        }
                     }
                 }
             }
@@ -107,17 +124,21 @@ public:
                         int ny = current->getTetr(i)->getY();
                         int nx = current->getTetr(i)->getX();
                         field[ny][nx] = 1;
+                        //current->getTetr(i)->getSprite().move(28,31);
                     }
                     insertToVector(current);
                     delete current;
                     checkAndDelLines();
-                    showField();
                     tetraminoIsCreated = false;
                 }
                 instantFall.restart();
                 clockMoveY.restart();
+                for (int i = 0; i < 4; ++i) {
+                    current->getTetr(i)->getSprite().move(28,31);
+                }
             }
             window.clear(Color::White);
+            window.draw(backgroundSprite);
             if (tetraminoIsCreated) {
                 for (int i = 0; i < 4; ++i) {
                     current->drawSprite(window);
@@ -129,9 +150,6 @@ public:
             window.display();
         }
         return 0;
-    }
-    bool checkCollisionInUp() override {
-        return true;
     }
     bool checkCollisonLRD(tetramino  *figure) override {
         for (int i = 0; i < 4 ; ++i) {
@@ -147,15 +165,6 @@ public:
         for (int i = 0; i < 4; ++i) {
             pointsOnField.push_back(cur->getTetr(i));
         }
-    }
-    void showField(){
-        for (int i = 0; i <H ; ++i) {
-            for (int j = 0; j <W ; ++j) {
-                std::cout << field[i][j] << " ";
-            }
-            std::cout<< std::endl;
-        }
-        std::cout << "----------------------------------" << std::endl;
     }
     static inline int randTypeOfTetramino(){
          return rand() % 6 + 1;
