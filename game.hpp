@@ -23,6 +23,8 @@ public:
         RenderWindow window(sf::VideoMode(320, 480), "Tetris");
         window.setFramerateLimit(32);
         loadTexture();
+        current = new ITetramino;
+        tetraminoIsCreated = true;
         while (window.isOpen())
         {
             if (!tetraminoIsCreated){
@@ -124,18 +126,17 @@ public:
                         int ny = current->getTetr(i)->getY();
                         int nx = current->getTetr(i)->getX();
                         field[ny][nx] = 1;
-                        //current->getTetr(i)->getSprite().move(28,31);
                     }
                     insertToVector(current);
+                    checkAndDelLines(current);
                     delete current;
-                    checkAndDelLines();
                     tetraminoIsCreated = false;
                 }
                 instantFall.restart();
                 clockMoveY.restart();
-                for (int i = 0; i < 4; ++i) {
-                    current->getTetr(i)->getSprite().move(28,31);
-                }
+                    for (int i = 0; i < 4; ++i) {
+                        current->getTetr(i)->getSprite().move(28, 31);
+                    }
             }
             window.clear(Color::White);
             window.draw(backgroundSprite);

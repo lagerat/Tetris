@@ -14,6 +14,7 @@ protected:
     sf::Clock instantFall;
     sf::Clock clockMoveY;
     std::vector<point*> pointsOnField;
+    std::vector<point*> movedPoints;
     std::vector<point*>::iterator it = pointsOnField.begin();
     int field[H][W] = {0};
     sf::Texture background;
@@ -21,7 +22,7 @@ protected:
     sf::Sprite backgroundSprite;
     sf::Sprite windowTetrisSprite;
 public:
-    void checkAndDelLines(){
+    void checkAndDelLines(tetramino* &current){
         for (int i = 0; i < H ; ++i) {
             bool lineIsFull = true;
             for (int j = 0; j < W ; ++j) {
@@ -49,7 +50,15 @@ public:
                         for (it = pointsOnField.begin();it != pointsOnField.end(); ) {
                             if ((*it)->getX() == k && (*it)->getY() == j){
                                 (*it)->dropDown();
-                                (*it)->getSprite().move(28,31);
+                                bool isUnique = true;
+                                for (int l = 0; l < movedPoints.size(); ++l) {
+                                    if (movedPoints[i] == (*it)){
+                                        isUnique = false;
+                                    }
+                                 }
+                                if (isUnique){
+                                    movedPoints.push_back(*it);
+                                }
                                 int tmp;
                                 tmp = field[j][k];
                                 field[j][k] = 0;
@@ -61,6 +70,21 @@ public:
                     }
                 }
             }
+        }
+        if (movedPoints.size() > 0){
+            for (int j = 0; j < movedPoints.size(); ++j) {
+                bool needToMove = true;
+                for (int i = 0; i < 4; ++i) {
+                   if ( current->getTetr(i) == movedPoints[j]){
+                       needToMove = false;
+                       break;
+                   }
+                }
+                if (needToMove) {
+                    movedPoints[j]->getSprite().move(28, 31);
+                }
+            }
+            movedPoints.clear();
         }
     }
     void loadTexture(){
