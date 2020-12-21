@@ -12,6 +12,47 @@ class game : public gamefield{
     const int delay = 500;
     bool tetraminoIsCreated = false;
     tetramino* current;
+    int gameMenu(sf::RenderWindow& window){
+        Texture menuStart, menuEnd;
+        menuStart.loadFromFile("../img/start.png");
+        menuEnd.loadFromFile("../img/end.png");
+        Sprite menu1(menuStart), menu2(menuEnd);
+        menu1.setPosition(-120,50);
+        menu2.setPosition(-130,150);
+        int menuChoose = 0;
+        window.setFramerateLimit(16);
+        while (window.isOpen()){
+            menuChoose = 0;
+            menu1.setColor(Color::White);
+            menu2.setColor(Color::White);
+            if (IntRect(60,150,215,60).contains(Mouse::getPosition(window))){
+            menu1.setColor(Color::Yellow);
+            menuChoose = 1;
+            }
+            if (IntRect(80,250,180,60).contains(Mouse::getPosition(window))){
+                menu2.setColor(Color::Blue);
+                menuChoose = 2;
+            }
+            if (Mouse::isButtonPressed(Mouse::Left)){
+                if (menuChoose == 2){
+                    window.close();
+                }
+                if (menuChoose == 1){
+                    return 1;
+                }
+            }
+            Event event;
+            while (window.pollEvent(event))
+            {
+                if (event.type == Event::Closed)
+                    window.close();
+            }
+            window.clear(Color::Black);
+            window.draw(menu1);
+            window.draw(menu2);
+            window.display();
+        }
+    }
 public:
     int startGame(){
         srand(time(NULL));
@@ -21,12 +62,12 @@ public:
         clockMoveY.restart();
         pointsOnField.reserve(W*H);
         RenderWindow window(sf::VideoMode(320, 480), "Tetris");
+        gameMenu(window);
         window.setFramerateLimit(32);
         loadTexture();
-        current = new ITetramino;
-        tetraminoIsCreated = true;
         while (window.isOpen())
         {
+
             if (!tetraminoIsCreated){
                 switch (randTypeOfTetramino()) {
                     case 1:

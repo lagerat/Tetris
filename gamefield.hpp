@@ -57,6 +57,7 @@ public:
                                     }
                                  }
                                 if (isUnique){
+                                    (*it)->isMoved = true;
                                     movedPoints.push_back(*it);
                                 }
                                 int tmp;
@@ -81,7 +82,10 @@ public:
                    }
                 }
                 if (needToMove) {
-                    movedPoints[j]->getSprite().move(28, 31);
+                    if (movedPoints[j]->isMoved) {
+                        movedPoints[j]->getSprite().move(28, 31);
+                        movedPoints[j]->isMoved = false;
+                    }
                 }
             }
             movedPoints.clear();
