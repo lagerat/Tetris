@@ -91,6 +91,9 @@ public:
                     case 7:
                         current = new tTetramino;
                         break;
+                    default:
+                        current = new ITetramino;
+                        break;
                 }
                 if (!checkCollisonLRD(current)){
                     window.close();

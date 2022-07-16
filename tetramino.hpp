@@ -32,7 +32,7 @@ public:
     }
     void setSprite(int color = 1){
         if (color < 1 || color > 8){
-            throw "error with color of tetramino";
+            color = 1;
         }
         sprite.setTexture(texture);
         if (color == 1){
@@ -43,12 +43,13 @@ public:
     }
     void dropDown(){
         y += 1;
-        sprite.setPosition((float)x*18,(float)y*18);
+        sprite.setPosition((float)x*18 ,(float)y*18);
     }
     sf::Sprite& getSprite(){
         return sprite;
     }
      virtual void drawSprite(sf::RenderWindow& window){
+        sprite.setPosition((float)x*18 + 28,(float)y*18 + 31);
         window.draw(sprite);
     }
 };

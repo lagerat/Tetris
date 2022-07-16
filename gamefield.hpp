@@ -73,18 +73,18 @@ public:
             }
         }
         if (movedPoints.size() > 0){
-            for (int j = 0; j < movedPoints.size(); ++j) {
+            for (auto & movedPoint : movedPoints) {
                 bool needToMove = true;
                 for (int i = 0; i < 4; ++i) {
-                   if ( current->getTetr(i) == movedPoints[j]){
+                   if ( current->getTetr(i) == movedPoint){
                        needToMove = false;
                        break;
                    }
                 }
                 if (needToMove) {
-                    if (movedPoints[j]->isMoved) {
-                        movedPoints[j]->getSprite().move(28, 31);
-                        movedPoints[j]->isMoved = false;
+                    if (movedPoint->isMoved) {
+                        movedPoint->getSprite().move(28, 31);
+                        movedPoint->isMoved = false;
                     }
                 }
             }
