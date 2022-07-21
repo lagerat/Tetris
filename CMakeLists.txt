@@ -22,13 +22,7 @@ target_link_libraries(Tetris sfml-graphics)
 
 
 if(WIN32)
-    MESSAGE(${PROJECT_BINARY_DIR} fddfgdfgdgf)
 
     file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/SFML-2.5.1/bin/ DESTINATION ${PROJECT_BINARY_DIR}/)
-    add_custom_command(
-            TARGET Tetris POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy
-            ${CMAKE_CURRENT_SOURCE_DIR}/SFML-2.5.1/bin/openal32.dll
-            ${PROJECT_BINARY_DIR}/
-            )
+
 endif()
